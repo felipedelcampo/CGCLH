@@ -1,0 +1,25 @@
+﻿module Analise.Lexica.DadosChar where 
+data DadosChar = DadosChar Char Int Int
+                    deriving (Show)
+                    
+getCharacter :: DadosChar -> Char
+getCharacter (DadosChar c _ _) = c
+
+getPosX :: DadosChar -> Int
+getPosX (DadosChar _ x _) = x
+
+getPosY :: DadosChar -> Int
+getPosY (DadosChar _ _ y) = y
+
+string2DadosChar :: [Char] -> [DadosChar]
+string2DadosChar str = transformaString str 0 0
+
+transformaString :: [Char] -> Int -> Int -> [DadosChar]
+transformaString [] posX posY = []
+transformaString str posX posY = let x = head(str)
+                                     xs = tail(str) in
+                                (DadosChar x posX posY) : case x of 
+                                                          '\t' -> transformaString xs (posX + 4) posY
+                                                          '\n' -> transformaString xs 0 (posY + 1)
+                                                          _    -> transformaString xs (posX + 1) posY
+                                  
